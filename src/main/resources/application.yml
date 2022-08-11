@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: yahoo-stock-api-service
+  webflux:
+    base-path: /yahoo-stock-api
+  cache:
+    type: caffeine
+    caffeine:
+      spec: expireAfterWrite=10s
+feign-services:
+  yahoo-endpoint: "https://query1.finance.yahoo.com/v10/finance/quoteSummary"
