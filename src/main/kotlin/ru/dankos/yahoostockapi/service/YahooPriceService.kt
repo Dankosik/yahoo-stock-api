@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactor.awaitSingle
-import mu.KLogging
 import org.springframework.stereotype.Service
 import ru.dankos.yahoostockapi.controller.dto.MoneyValue
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
@@ -21,8 +20,8 @@ class YahooPriceService(
         return StockPriceResponse(
             ticker = response.symbol,
             moneyValue = MoneyValue(
-                value = response.regularMarketPrice.fmt.length,
-                minorUnits = response.regularMarketPrice.raw,
+                value = (response.regularMarketPrice.fmt.toDouble() * 100).toInt(),
+                minorUnits = 100,
                 currency = response.currency
             ),
             time = LocalTime.now()

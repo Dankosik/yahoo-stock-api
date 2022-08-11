@@ -10,6 +10,6 @@ data class StockPriceResponse(
 
 data class MoneyValue(
     val value: Int,
-    val minorUnits: Double,
+    val minorUnits: Int,
     val currency: String,
 )
