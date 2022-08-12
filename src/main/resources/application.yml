@@ -3,6 +3,8 @@ spring:
     name: yahoo-stock-api-service
   webflux:
     base-path: /yahoo-stock-api
+  codec:
+    max-in-memory-size: 10MB
   cache:
     type: caffeine
     caffeine:
@@ -12,3 +14,4 @@ logging:
     reactivefeign.client.log: TRACE
 feign-services:
   yahoo-endpoint: "https://query1.finance.yahoo.com/v10/finance/quoteSummary"
+  nyse-endpoint: "https://www.nyse.com/api"
