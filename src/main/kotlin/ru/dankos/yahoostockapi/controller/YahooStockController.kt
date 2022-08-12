@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RestController
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
 import ru.dankos.yahoostockapi.model.StockMarketInfo
+import ru.dankos.yahoostockapi.service.YahooMarketDataInfoService
 import ru.dankos.yahoostockapi.service.YahooPriceService
 
 @RestController
 @RequestMapping("/stocks")
 class YahooStockController(
     private val yahooPriceService: YahooPriceService,
+    private val yahooMarketDataInfoService: YahooMarketDataInfoService,
 ) {
 
     @GetMapping("/{ticker}/price")
@@ -22,11 +24,11 @@ class YahooStockController(
 
     @GetMapping("/{ticker}/marketInfo")
     suspend fun getStockMarketInfoByTicker(@PathVariable ticker: String): StockMarketInfo =
-        yahooPriceService.getStockMarketInfoByTicker(ticker)
+        yahooMarketDataInfoService.getStockMarketInfoByTicker(ticker)
 
     @GetMapping("/marketInfo")
     suspend fun getStocksMarketInfosByTickers(@RequestBody request: TickersListRequest): List<StockMarketInfo> =
-        yahooPriceService.getStocksMarketInfosByTickers(request)
+        yahooMarketDataInfoService.getStocksMarketInfosByTickers(request)
 
     @GetMapping("/price")
     suspend fun getMoexStocksPriceByTickers(@RequestBody request: TickersListRequest): List<StockPriceResponse> =

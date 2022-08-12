@@ -7,5 +7,8 @@ spring:
     type: caffeine
     caffeine:
       spec: expireAfterWrite=10s
+logging:
+  level:
+    reactivefeign.client.log: TRACE
 feign-services:
   yahoo-endpoint: "https://query1.finance.yahoo.com/v10/finance/quoteSummary"
