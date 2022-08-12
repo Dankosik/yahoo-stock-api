@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
+import ru.dankos.yahoostockapi.model.StockMarketInfo
 import ru.dankos.yahoostockapi.service.YahooPriceService
 
 @RestController
@@ -17,10 +17,18 @@ class YahooStockController(
 ) {
 
     @GetMapping("/{ticker}/price")
-    suspend fun getMoexStockPriceByTicker(@PathVariable ticker: String): StockPriceResponse =
+    suspend fun getStockPriceByTicker(@PathVariable ticker: String): StockPriceResponse =
         yahooPriceService.getStockPriceByTicker(ticker)
+
+    @GetMapping("/{ticker}/marketInfo")
+    suspend fun getStockMarketInfoByTicker(@PathVariable ticker: String): StockMarketInfo =
+        yahooPriceService.getStockMarketInfoByTicker(ticker)
+
+    @GetMapping("/marketInfo")
+    suspend fun getStocksMarketInfosByTickers(@RequestBody request: TickersListRequest): List<StockMarketInfo> =
+        yahooPriceService.getStocksMarketInfosByTickers(request)
 
     @GetMapping("/price")
     suspend fun getMoexStocksPriceByTickers(@RequestBody request: TickersListRequest): List<StockPriceResponse> =
-        yahooPriceService.getMoexStocksByTickers(request)
+        yahooPriceService.getStocksByTickers(request)
 }

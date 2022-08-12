@@ -10,5 +10,5 @@ import ru.dankos.yahoostockapi.client.dto.YahooStockResponse
 interface YahooClient {
 
     @GetMapping("/{ticker}?modules=price")
-    fun getStockByTicker(@PathVariable("ticker") ticker: String): Mono<YahooStockResponse>
+    fun getStockMarketInfoByTicker(@PathVariable("ticker") ticker: String): Mono<YahooStockResponse>
 }

@@ -6,12 +6,12 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
-import ru.dankos.yahoostockapi.controller.dto.MoneyValue
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
+import ru.dankos.yahoostockapi.converter.toStockPriceResponse
 import ru.dankos.yahoostockapi.exception.InternalException
 import ru.dankos.yahoostockapi.exception.StockNotFoundException
-import java.time.LocalTime
+import ru.dankos.yahoostockapi.model.StockMarketInfo
 
 @Service
 class YahooPriceService(
@@ -19,16 +19,7 @@ class YahooPriceService(
 ) {
 
     suspend fun getStockPriceByTicker(ticker: String): StockPriceResponse = try {
-        val response = cacheStockService.getStockPriceByTicker(ticker).awaitSingle().quoteSummary.result[0].price
-        StockPriceResponse(
-            ticker = response.symbol,
-            moneyValue = MoneyValue(
-                value = (response.regularMarketPrice.fmt.toDouble() * 100).toInt(),
-                minorUnits = 100,
-                currency = response.currency
-            ),
-            time = LocalTime.now()
-        )
+        cacheStockService.getStockMarketInfoByTicker(ticker).awaitSingle().toStockPriceResponse()
     } catch (e: Exception) {
         if (e is FeignException && e.status() == 404) {
             throw StockNotFoundException("Stock not found")
@@ -36,7 +27,14 @@ class YahooPriceService(
         throw InternalException(e)
     }
 
-    suspend fun getMoexStocksByTickers(request: TickersListRequest): List<StockPriceResponse> = coroutineScope {
+    suspend fun getStockMarketInfoByTicker(ticker: String): StockMarketInfo =
+        cacheStockService.getStockMarketInfoByTicker(ticker).awaitSingle()
+
+    suspend fun getStocksByTickers(request: TickersListRequest): List<StockPriceResponse> = coroutineScope {
         request.tickers.map { async { getStockPriceByTicker(it) } }.awaitAll()
+    }
+
+    suspend fun getStocksMarketInfosByTickers(request: TickersListRequest): List<StockMarketInfo> = coroutineScope {
+        request.tickers.map { async { getStockMarketInfoByTicker(it) } }.awaitAll()
     }
 }

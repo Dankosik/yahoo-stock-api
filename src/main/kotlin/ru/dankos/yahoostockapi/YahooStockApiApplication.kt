@@ -11,5 +11,5 @@ import reactivefeign.spring.config.EnableReactiveFeignClients
 class YahooStockApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<YahooStockApiApplication>(*args)
+    runApplication<YahooStockApiApplication>(*args)
 }
