@@ -5,6 +5,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
+import ru.dankos.yahoostockapi.controller.dto.StockBaseInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
 import ru.dankos.yahoostockapi.model.StockMarketInfo
 
@@ -14,6 +15,15 @@ class YahooMarketDataInfoService(
 ) {
     suspend fun getStockMarketInfoByTicker(ticker: String): StockMarketInfo =
         cacheStockService.getStockMarketInfoByTicker(ticker)
+
+    suspend fun getStockBaseInfoResponseByTicker(ticker: String): StockBaseInfoResponse {
+        val marketInfo = cacheStockService.getStockMarketInfoByTicker(ticker)
+        return StockBaseInfoResponse(
+            ticker = marketInfo.ticker,
+            companyName = marketInfo.companyName,
+            exchange = marketInfo.exchange
+        )
+    }
 
     suspend fun getStocksMarketInfosByTickers(request: TickersListRequest): List<StockMarketInfo> = coroutineScope {
         request.tickers.map { async { getStockMarketInfoByTicker(it) } }.awaitAll()

@@ -6,6 +6,7 @@ class StockMarketInfo(
     val ticker: String,
     val companyName: String,
     val currency: String,
+    val exchange: Exchange,
     val currencySymbol: String,
     val postMarketPrice: MoneyValue,
     val preMarketPrice: MoneyValue?,
