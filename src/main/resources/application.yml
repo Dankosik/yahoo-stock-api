@@ -7,8 +7,10 @@ spring:
     max-in-memory-size: 10MB
   cache:
     type: caffeine
-    caffeine:
-      spec: expireAfterWrite=10s
+caching:
+  cacheNames:
+    marketData:
+      timeout: 5 # in seconds
 logging:
   level:
     reactivefeign.client.log: TRACE
