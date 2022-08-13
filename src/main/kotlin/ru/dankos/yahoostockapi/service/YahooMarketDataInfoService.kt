@@ -3,7 +3,6 @@ package ru.dankos.yahoostockapi.service
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import ru.dankos.yahoostockapi.controller.dto.StockBaseInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest

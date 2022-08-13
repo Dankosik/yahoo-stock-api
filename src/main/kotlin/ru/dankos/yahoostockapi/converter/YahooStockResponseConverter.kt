@@ -1,7 +1,7 @@
 package ru.dankos.yahoostockapi.converter
 
 import ru.dankos.yahoostockapi.client.dto.YahooStockResponse
-import ru.dankos.yahoostockapi.model.Exchange
+import ru.dankos.yahoostockapi.model.Exchanges
 import ru.dankos.yahoostockapi.model.StockMarketInfo
 
 fun YahooStockResponse.toStockMarketInfo(): StockMarketInfo {
@@ -19,6 +19,6 @@ fun YahooStockResponse.toStockMarketInfo(): StockMarketInfo {
         marketDayLowPrice = yahooResponse.regularMarketDayLow.toMoneyValue(currency),
         marketCup = yahooResponse.marketCap.toMoneyValue(currency),
         marketVolume = yahooResponse.regularMarketVolume.toMoneyValue(currency),
-        exchange = if (yahooResponse.exchangeName == "NasdaqGS") Exchange.NASDAQ else Exchange.NYSE
+        exchange = if (yahooResponse.exchangeName == "NasdaqGS") Exchanges.NASDAQ else Exchanges.NYSE
     )
 }
