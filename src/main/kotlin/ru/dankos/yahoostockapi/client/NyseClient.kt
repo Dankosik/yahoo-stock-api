@@ -11,5 +11,5 @@ import ru.dankos.yahoostockapi.client.dto.Ticker
 interface NyseClient {
 
     @PostMapping("/quotes/filter")
-    fun getStockMarketInfoByTicker(@RequestBody nyseAllTickersRequest: NyseAllTickersRequest): Mono<List<Ticker>>
+    fun getAllAvailableTickers(@RequestBody nyseAllTickersRequest: NyseAllTickersRequest): Mono<List<Ticker>>
 }

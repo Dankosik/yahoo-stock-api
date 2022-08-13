@@ -38,6 +38,6 @@ class YahooStockController(
         yahooPriceService.getStocksByTickers(request)
 
     @GetMapping("/tickers")
-    suspend fun getAllAvaiableTickers(): AllTickersResponse =
+    suspend fun getAllAvailableTickers(): AllTickersResponse =
         tickerService.getAllAvailableTickers()
 }
