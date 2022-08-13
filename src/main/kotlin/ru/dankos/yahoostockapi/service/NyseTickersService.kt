@@ -12,6 +12,6 @@ class NyseTickersService(
 ) {
 
     suspend fun getAllAvailableTickers(): AllTickersResponse = AllTickersResponse(
-        nyseClient.getStockMarketInfoByTicker(NyseAllTickersRequest()).awaitSingle().map { it.normalizedTicker }
+        nyseClient.getAllAvailableTickers(NyseAllTickersRequest()).awaitSingle().map { it.normalizedTicker }
     )
 }
