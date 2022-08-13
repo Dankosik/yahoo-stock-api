@@ -13,7 +13,7 @@ class YahooMarketDataInfoService(
     private val cacheStockService: CacheStockService
 ) {
     suspend fun getStockMarketInfoByTicker(ticker: String): StockMarketInfo =
-        cacheStockService.getStockMarketInfoByTicker(ticker).awaitSingle()
+        cacheStockService.getStockMarketInfoByTicker(ticker)
 
     suspend fun getStocksMarketInfosByTickers(request: TickersListRequest): List<StockMarketInfo> = coroutineScope {
         request.tickers.map { async { getStockMarketInfoByTicker(it) } }.awaitAll()

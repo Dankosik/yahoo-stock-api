@@ -1,6 +1,5 @@
 package ru.dankos.yahoostockapi.service
 
-import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.stereotype.Service
 import ru.dankos.yahoostockapi.controller.dto.AllTickersResponse
 
@@ -10,6 +9,6 @@ class NyseTickersService(
 ) {
 
     suspend fun getAllAvailableTickers(): AllTickersResponse = AllTickersResponse(
-        cacheStockService.getAllAvailableTickers().awaitSingle().map { it.normalizedTicker }
+        cacheStockService.getAllAvailableTickers()
     )
 }

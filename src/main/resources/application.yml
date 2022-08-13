@@ -5,8 +5,6 @@ spring:
     base-path: /yahoo-stock-api
   codec:
     max-in-memory-size: 10MB
-  cache:
-    type: caffeine
 caching:
   cacheNames:
     marketData:
