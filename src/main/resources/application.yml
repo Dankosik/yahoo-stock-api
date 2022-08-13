@@ -11,6 +11,8 @@ caching:
   cacheNames:
     marketData:
       timeout: 5 # in seconds
+    tickers:
+      timeout: 86400 # 1 day
 logging:
   level:
     reactivefeign.client.log: TRACE
