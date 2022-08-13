@@ -33,6 +33,6 @@ data class MarketData(
 
 data class MarketDataLongFormat(
     val raw: Double,
-    val fmt: String,
+    val fmt: String? = null,
     val longFmt: String,
 )
