@@ -5,10 +5,10 @@ import ru.dankos.yahoostockapi.controller.dto.AllTickersResponse
 
 @Service
 class NyseTickersService(
-    private val cacheStockService: CacheStockService
+    private val cacheableStockService: CacheableStockService
 ) {
 
     suspend fun getAllAvailableTickers(): AllTickersResponse = AllTickersResponse(
-        cacheStockService.getAllAvailableTickers()
+        cacheableStockService.getAllAvailableTickers()
     )
 }

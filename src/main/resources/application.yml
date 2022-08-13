@@ -9,6 +9,8 @@ caching:
   cacheNames:
     marketData:
       timeout: 5 # in seconds
+    baseInfo:
+      timeout: 86400 # 1 day
     tickers:
       timeout: 86400 # 1 day
 logging:

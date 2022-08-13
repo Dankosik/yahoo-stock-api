@@ -10,7 +10,7 @@ import ru.dankos.yahoostockapi.converter.toStockMarketInfo
 import ru.dankos.yahoostockapi.model.StockMarketInfo
 
 @Service
-class CacheStockService(
+class CacheableStockService(
     private val yahooClient: YahooClient,
     private val nyseClient: NyseClient,
 ) {
