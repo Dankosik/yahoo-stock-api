@@ -5,6 +5,11 @@ spring:
     base-path: /yahoo-stock-api
   codec:
     max-in-memory-size: 10MB
+management:
+  endpoints:
+    web:
+      exposure:
+        include: caches, metrics
 caching:
   cacheNames:
     marketData:
@@ -15,7 +20,7 @@ caching:
       timeout: 86400 # 1 day
 logging:
   level:
-    reactivefeign.client.log: TRACE
+    reactivefeign.client.log: DEBUG
 feign-services:
   yahoo-endpoint: "https://query1.finance.yahoo.com/v10/finance/quoteSummary"
-  nyse-endpoint: "https://www.nyse.com/api"
+  stock-analysis-endpoint: "https://api.stockanalysis.com"

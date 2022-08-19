@@ -4,6 +4,7 @@ import feign.FeignException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import mu.KLogging
 import org.springframework.stereotype.Service
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
@@ -20,7 +21,7 @@ class YahooPriceService(
         cacheableStockService.getStockMarketInfoByTicker(ticker).toStockPriceResponse()
     } catch (e: Exception) {
         if (e is FeignException && e.status() == 404) {
-            throw StockNotFoundException("Stock not found")
+            throw StockNotFoundException("Stock not found").apply { logger.warn { "Stock not found $ticker" } }
         }
         throw InternalException(e)
     }
@@ -28,4 +29,6 @@ class YahooPriceService(
     suspend fun getStocksByTickers(request: TickersListRequest): List<StockPriceResponse> = coroutineScope {
         request.tickers.map { async { getStockPriceByTicker(it) } }.awaitAll()
     }
+
+    companion object : KLogging()
 }

@@ -18,20 +18,37 @@ repositories {
 extra["springCloudVersion"] = "2021.0.3"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.4")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.7")
-    implementation("com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:3.2.3")
+
+    //spring
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    //cache
+    implementation("com.github.ben-manes.caffeine:caffeine")
+
+    //reactive
+    implementation("com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:3.2.5")
+
+    //kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("io.github.microutils:kotlin-logging:2.1.23")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.7")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.springframework.kotlin:spring-kotlin-coroutine:0.3.7")
 
+    //logging
+    implementation("io.github.microutils:kotlin-logging:2.1.23")
+
+    //utils
+    implementation("javax.validation:validation-api:2.0.1.Final")
+
+    //test
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

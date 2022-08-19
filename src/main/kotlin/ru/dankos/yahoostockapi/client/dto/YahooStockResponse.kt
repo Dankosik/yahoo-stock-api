@@ -13,27 +13,24 @@ data class Result(
 )
 
 class Price(
-    val symbol: String,
+    val symbol: String? = null,
     val regularMarketPrice: MarketData,
-    val preMarketPrice: MarketData? = null,
+    val preMarketPrice: MarketData,
     val postMarketPrice: MarketData,
     val regularMarketDayHigh: MarketData,
     val regularMarketDayLow: MarketData,
-    val currency: String,
-    val exchangeName: String,
-    val longName: String,
-    val currencySymbol: String,
+    val currency: String? = null,
+    val exchangeName: String? = null,
+    val longName: String? = null,
+    val currencySymbol: String? = null,
     val marketCap: MarketDataLongFormat,
     val regularMarketVolume: MarketDataLongFormat,
 )
 
-data class MarketData(
-    val raw: Double? = null,
+class MarketData(
     val fmt: String? = null,
 )
 
-data class MarketDataLongFormat(
-    val raw: Double,
-    val fmt: String? = null,
-    val longFmt: String,
+class MarketDataLongFormat(
+    val longFmt: String? = null,
 )

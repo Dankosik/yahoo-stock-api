@@ -1,11 +1,10 @@
 package ru.dankos.yahoostockapi.controller.dto
 
-import java.time.LocalTime
-
 data class StockPriceResponse(
-    val ticker: String,
-    val stockPrice: MoneyValue,
-    val time: LocalTime,
+    val ticker: String? = null,
+    val stockPrice: MoneyValue? = null,
+    val prettyStockPrice: String? = null,
+    val time: String,
 )
 
 data class MoneyValue(

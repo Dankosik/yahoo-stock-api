@@ -13,6 +13,7 @@ import ru.dankos.yahoostockapi.model.StockMarketInfo
 import ru.dankos.yahoostockapi.service.NyseTickersService
 import ru.dankos.yahoostockapi.service.YahooMarketDataInfoService
 import ru.dankos.yahoostockapi.service.YahooPriceService
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/stocks")
@@ -35,11 +36,11 @@ class YahooStockController(
         yahooMarketDataInfoService.getStockBaseInfoResponseByTicker(ticker)
 
     @GetMapping("/marketInfo")
-    suspend fun getStocksMarketInfosByTickers(@RequestBody request: TickersListRequest): List<StockMarketInfo> =
+    suspend fun getStocksMarketInfosByTickers(@Valid @RequestBody request: TickersListRequest): List<StockMarketInfo> =
         yahooMarketDataInfoService.getStocksMarketInfosByTickers(request)
 
     @GetMapping("/price")
-    suspend fun getStocksByTickers(@RequestBody request: TickersListRequest): List<StockPriceResponse> =
+    suspend fun getStocksByTickers(@Valid @RequestBody request: TickersListRequest): List<StockPriceResponse> =
         yahooPriceService.getStocksByTickers(request)
 
     @GetMapping("/tickers")
