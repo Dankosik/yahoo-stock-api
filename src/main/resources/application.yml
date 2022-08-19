@@ -18,6 +18,8 @@ caching:
       timeout: 86400 # 1 day
     tickers:
       timeout: 86400 # 1 day
+    returnCapital:
+      timeout: 86400 # 1 day
 logging:
   level:
     reactivefeign.client.log: DEBUG

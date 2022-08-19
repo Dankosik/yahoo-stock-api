@@ -1,10 +1,10 @@
 package ru.dankos.yahoostockapi.client.dto
 
 data class NyseAllTickersResponse(
-    val data: Data,
+    val data: NyseData,
 )
 
-data class Data(
+data class NyseData(
     val data: List<Ticker>
 )
 
