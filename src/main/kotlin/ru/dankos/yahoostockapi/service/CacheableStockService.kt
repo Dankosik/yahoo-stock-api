@@ -3,10 +3,13 @@ package ru.dankos.yahoostockapi.service
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
+import ru.dankos.yahoostockapi.client.NasdaqClient
 import ru.dankos.yahoostockapi.client.StockAnalysisApiClient
 import ru.dankos.yahoostockapi.client.YahooClient
+import ru.dankos.yahoostockapi.converter.toDividendInfo
 import ru.dankos.yahoostockapi.converter.toReturnsCapital
 import ru.dankos.yahoostockapi.converter.toStockMarketInfo
+import ru.dankos.yahoostockapi.model.DividendInfo
 import ru.dankos.yahoostockapi.model.ReturnsCapital
 import ru.dankos.yahoostockapi.model.StockMarketInfo
 
@@ -14,6 +17,7 @@ import ru.dankos.yahoostockapi.model.StockMarketInfo
 class CacheableStockService(
     private val yahooClient: YahooClient,
     private val stockanalysisApiClient: StockAnalysisApiClient,
+    private val nasdaqClient: NasdaqClient,
 ) {
 
     @Cacheable(value = ["marketData"])
@@ -24,6 +28,13 @@ class CacheableStockService(
     suspend fun getReturnsCapital(ticker: String): ReturnsCapital =
         stockanalysisApiClient.getReturnsCapital(ticker).awaitSingle().toReturnsCapital()
 
+
+    @Cacheable(value = ["dividends"])
+    suspend fun getStockDividendInfoByTicker(ticker: String): List<DividendInfo> =
+        nasdaqClient.getDividendInfoByTicker(ticker)
+            .awaitSingle().data.dividends!!.rows!!
+            .map { it.toDividendInfo() }
+            .toList()
 
     @Cacheable(value = ["tickers"])
     suspend fun getAllAvailableTickers(): List<String> =

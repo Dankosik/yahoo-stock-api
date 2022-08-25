@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.dankos.yahoostockapi.controller.dto.AllTickersResponse
+import ru.dankos.yahoostockapi.controller.dto.DividendInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.StockBaseInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
@@ -37,6 +38,14 @@ class YahooStockController(
     @GetMapping("/{ticker}/baseInfo")
     suspend fun getStockBaseInfoResponseByTicker(@PathVariable ticker: String): StockBaseInfoResponse =
         yahooMarketDataInfoService.getStockBaseInfoResponseByTicker(ticker)
+
+        @GetMapping("/{ticker}/historyDiv")
+    suspend fun getHistoricalDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
+        stockAnalysisService.getStockHistoricalDividendsByTicker(ticker)
+
+    @GetMapping("/{ticker}/futureDiv")
+    suspend fun getFutureDivividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
+        stockAnalysisService.getStockFutureDividendsByTicker(ticker)
 
     @GetMapping("/marketInfo")
     suspend fun getStocksMarketInfosByTickers(@Valid @RequestBody request: TickersListRequest): List<StockMarketInfo> =

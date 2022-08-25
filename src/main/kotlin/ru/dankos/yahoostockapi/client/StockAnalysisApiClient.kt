@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono
 import ru.dankos.yahoostockapi.client.dto.NyseAllTickersResponse
 import ru.dankos.yahoostockapi.client.dto.StockAnalysisReturnsCapitalResponse
 
-@ReactiveFeignClient(name = "nyse", url = "\${feign-services.stock-analysis-endpoint}")
+@ReactiveFeignClient(name = "stockAnalysisApi", url = "\${feign-services.stock-analysis-api-endpoint}")
 interface StockAnalysisApiClient {
 
     @GetMapping("/wp-json/sa/select?index=allstocks&main=marketCap&count=10000&columns=no,s,marketCap,ch1w,country,ch1y,ch3y,ch5y,chYTD&page=1")
