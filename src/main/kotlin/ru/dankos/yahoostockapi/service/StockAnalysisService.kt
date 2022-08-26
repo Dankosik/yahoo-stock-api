@@ -2,9 +2,11 @@ package ru.dankos.yahoostockapi.service
 
 import feign.FeignException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 import ru.dankos.yahoostockapi.controller.dto.DividendInfoResponse
+import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
 import ru.dankos.yahoostockapi.exception.InternalException
 import ru.dankos.yahoostockapi.exception.StockNotFoundException
 import ru.dankos.yahoostockapi.model.DividendInfo
@@ -34,7 +36,7 @@ class StockAnalysisService(
             val stockMarketInfo = async { yahooMarketDataInfoService.getStockMarketInfoByTicker(ticker) }
             val stockDividendInfoByTicker = async { cacheableStockService.getStockDividendInfoByTicker(ticker) }
             stockDividendInfoByTicker.await()
-                .filter { it.exDate.isBefore(LocalDate.now()) }
+                .filter { it.exDate?.isBefore(LocalDate.now()) ?: false }
                 .map { mapToDividendInfoResponse(it, stockMarketInfo.await()) }
                 .toList()
         } catch (e: Exception) {
@@ -50,7 +52,7 @@ class StockAnalysisService(
             val stockMarketInfo = async { yahooMarketDataInfoService.getStockMarketInfoByTicker(ticker) }
             val stockDividendInfoByTicker = async { cacheableStockService.getStockDividendInfoByTicker(ticker) }
             stockDividendInfoByTicker.await()
-                .filter { it.exDate.isAfter(LocalDate.now()) }
+                .filter { it.exDate?.isAfter(LocalDate.now()) ?: false }
                 .map { mapToDividendInfoResponse(it, stockMarketInfo.await()) }
                 .toList()
         } catch (e: Exception) {
@@ -61,6 +63,16 @@ class StockAnalysisService(
         }
     }
 
+    suspend fun getStockFutureDividendsByTickers(request: TickersListRequest): List<List<DividendInfoResponse>> =
+        coroutineScope {
+            request.tickers.map { async { getStockFutureDividendsByTicker(it) } }.awaitAll()
+        }
+
+    suspend fun getStockHistoricalDividendsByTickers(request: TickersListRequest): List<List<DividendInfoResponse>> =
+        coroutineScope {
+            request.tickers.map { async { getStockHistoricalDividendsByTicker(it) } }.awaitAll()
+        }
+
     private fun mapToDividendInfoResponse(
         dividendInfo: DividendInfo,
         stockMarketInfo: StockMarketInfo
@@ -68,9 +80,9 @@ class StockAnalysisService(
         val dividendIncome = calculateDividendIncome(dividendInfo, stockMarketInfo)
         val prettyDividendIncome = convertToPrettyDividendIncome(dividendIncome)
         return DividendInfoResponse(
-            exDate = dividendInfo.exDate.toString(),
+            exDate = dividendInfo.exDate?.toString() ?: "N/A",
             amount = dividendInfo.amount,
-            recordDate = dividendInfo.recordDate.toString(),
+            recordDate = dividendInfo.recordDate?.toString() ?: "N/A",
             paymentDate = dividendInfo.paymentDate?.toString() ?: "N/A",
             prettyDividendIncome = prettyDividendIncome,
             dividendIncome = dividendIncome,

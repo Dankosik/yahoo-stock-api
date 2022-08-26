@@ -39,13 +39,21 @@ class YahooStockController(
     suspend fun getStockBaseInfoResponseByTicker(@PathVariable ticker: String): StockBaseInfoResponse =
         yahooMarketDataInfoService.getStockBaseInfoResponseByTicker(ticker)
 
-        @GetMapping("/{ticker}/historyDiv")
+    @GetMapping("/{ticker}/historyDiv")
     suspend fun getHistoricalDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
         stockAnalysisService.getStockHistoricalDividendsByTicker(ticker)
 
+    @GetMapping("/historyDiv")
+    suspend fun getHistoricalDividendInfoResponseByTickers(@Valid @RequestBody request: TickersListRequest): List<List<DividendInfoResponse>> =
+        stockAnalysisService.getStockHistoricalDividendsByTickers(request)
+
     @GetMapping("/{ticker}/futureDiv")
-    suspend fun getFutureDivividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
+    suspend fun getFutureDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
         stockAnalysisService.getStockFutureDividendsByTicker(ticker)
+
+    @GetMapping("/futureDiv")
+    suspend fun getFutureDividendInfoResponseByTickers(@Valid @RequestBody request: TickersListRequest): List<List<DividendInfoResponse>> =
+        stockAnalysisService.getStockFutureDividendsByTickers(request)
 
     @GetMapping("/marketInfo")
     suspend fun getStocksMarketInfosByTickers(@Valid @RequestBody request: TickersListRequest): List<StockMarketInfo> =
