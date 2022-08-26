@@ -19,7 +19,7 @@ class Price(
     val postMarketPrice: MarketData,
     val regularMarketDayHigh: MarketData,
     val regularMarketDayLow: MarketData,
-    val currency: String? = null,
+    val currency: String,
     val exchangeName: String? = null,
     val longName: String? = null,
     val currencySymbol: String? = null,
