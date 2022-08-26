@@ -7,7 +7,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 fun Rows.toDividendInfo() = DividendInfo(
-    exDate = convertNasdaqDateToLocalDate(exOrEffDate)!!,
+    exDate = convertNasdaqDateToLocalDate(exOrEffDate),
     amount = convertPriceToMoneyValue(convertNasdaqPriceToBigDecimal(this.amount), currency),
     recordDate = convertNasdaqDateToLocalDate(this.recordDate),
     paymentDate = convertNasdaqDateToLocalDate(paymentDate),
