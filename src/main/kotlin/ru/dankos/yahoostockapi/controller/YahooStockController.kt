@@ -39,11 +39,11 @@ class YahooStockController(
     suspend fun getStockBaseInfoResponseByTicker(@PathVariable ticker: String): StockBaseInfoResponse =
         yahooMarketDataInfoService.getStockBaseInfoResponseByTicker(ticker)
 
-        @GetMapping("/{ticker}/historyDiv")
+        @GetMapping("/{ticker}/historyDividend")
     suspend fun getHistoricalDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
         stockAnalysisService.getStockHistoricalDividendsByTicker(ticker)
 
-    @GetMapping("/{ticker}/futureDiv")
+    @GetMapping("/{ticker}/futureDividend")
     suspend fun getFutureDivividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
         stockAnalysisService.getStockFutureDividendsByTicker(ticker)
 
