@@ -7,9 +7,11 @@ import ru.dankos.yahoostockapi.client.NasdaqClient
 import ru.dankos.yahoostockapi.client.StockAnalysisApiClient
 import ru.dankos.yahoostockapi.client.YahooClient
 import ru.dankos.yahoostockapi.converter.toDividendInfo
+import ru.dankos.yahoostockapi.converter.toHistoryPrice
 import ru.dankos.yahoostockapi.converter.toReturnsCapital
 import ru.dankos.yahoostockapi.converter.toStockMarketInfo
 import ru.dankos.yahoostockapi.model.DividendInfo
+import ru.dankos.yahoostockapi.model.HistoryPrice
 import ru.dankos.yahoostockapi.model.ReturnsCapital
 import ru.dankos.yahoostockapi.model.StockMarketInfo
 
@@ -28,6 +30,9 @@ class CacheableStockService(
     suspend fun getReturnsCapital(ticker: String): ReturnsCapital =
         stockanalysisApiClient.getReturnsCapital(ticker).awaitSingle().toReturnsCapital()
 
+    @Cacheable(value = ["historyDividends"])
+    suspend fun getHistoryPriceByTicker(ticker: String, firstDate: String, secondDate: String): HistoryPrice =
+        nasdaqClient.getHistoricalPriceByTicker(ticker, firstDate, secondDate).awaitSingle().data.chart!![0].z.toHistoryPrice()
 
     @Cacheable(value = ["dividends"])
     suspend fun getStockDividendInfoByTicker(ticker: String): List<DividendInfo> =

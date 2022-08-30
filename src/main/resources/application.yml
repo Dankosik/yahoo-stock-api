@@ -22,6 +22,8 @@ caching:
       timeout: 86400 # 1 day
     dividends:
       timeout: 86400 # 1 day
+    historyDividends:
+        timeout: 86400 # 1 day
 logging:
   level:
     reactivefeign.client.log: DEBUG

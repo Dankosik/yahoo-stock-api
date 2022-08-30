@@ -3,7 +3,6 @@ package ru.dankos.yahoostockapi.handler
 import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -14,10 +13,10 @@ import ru.dankos.yahoostockapi.exception.StockNotFoundException
 @RestControllerAdvice
 class GenericExceptionHandler {
 
-    @ResponseStatus(INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = [Exception::class])
-    internal fun handleAnyException(exception: Exception): ErrorResponse =
-        exception.toErrorResponse(INTERNAL_SERVER_ERROR).apply { logger.error { exception } }
+//    @ResponseStatus(INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(value = [Exception::class])
+//    internal fun handleAnyException(exception: Exception): ErrorResponse =
+//        exception.toErrorResponse(INTERNAL_SERVER_ERROR).apply { logger.error { exception } }
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(value = [WebExchangeBindException::class])
