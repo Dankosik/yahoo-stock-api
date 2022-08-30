@@ -32,7 +32,7 @@ class CacheableStockService(
 
     @Cacheable(value = ["historyDividends"])
     suspend fun getHistoryPriceByTicker(ticker: String, firstDate: String, secondDate: String): HistoryPrice =
-        nasdaqClient.getHistoricalPriceByTicker(ticker, firstDate, secondDate).awaitSingle().data.chart!![0].z.toHistoryPrice()
+        nasdaqClient.getHistoricalPriceByTicker(ticker, firstDate, secondDate).awaitSingle().data?.chart!![0].z.toHistoryPrice()
 
     @Cacheable(value = ["dividends"])
     suspend fun getStockDividendInfoByTicker(ticker: String): List<DividendInfo> =

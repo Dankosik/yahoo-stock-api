@@ -53,15 +53,18 @@ class StockAnalysisService(
             val stockDividendInfoByTicker = async { cacheableStockService.getStockDividendInfoByTicker(ticker) }
 
             stockDividendInfoByTicker.await()
-                .filter { it.exDate?.isBefore(LocalDate.now()) ?: false && it.exDate?.isAfter(LocalDate.of(1990, 1, 1)) ?: false }
+                .filter {
+                    it.exDate?.isBefore(LocalDate.now()) ?: false && it.exDate?.isAfter(LocalDate.of(1990,1,1)
+                    ) ?: false
+                }
                 .map {
                     async {
                         mapToDividendInfoResponse(
                             it,
                             cacheableStockService.getHistoryPriceByTicker(
                                 ticker,
-                                it.paymentDate!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                                it.paymentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                                it.exDate!!.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                                it.exDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                             )
                         )
                     }
@@ -141,12 +144,30 @@ class StockAnalysisService(
     private fun calculateDividendIncome(
         dividendInfo: DividendInfo,
         historyPrice: HistoryPrice
-    ): Double? =
-        if (dividendInfo.amount.value == null || historyPrice.value == null) {
-            null
+    ): Double? {
+
+        var dividendValue = dividendInfo.amount.value
+        var priceValue = historyPrice.value.value
+        if (dividendValue == null) {
+            return null
         } else {
-            ((dividendInfo.amount.value.toDouble() / historyPrice.value.value!!) * 100).roundTo(2)
+            var dividendMinorUnits = dividendInfo.amount.minorUnits
+            var priceMinorUnits = historyPrice.value.minorUnits
+            if (dividendMinorUnits != priceMinorUnits) {
+                            while (dividendMinorUnits != 1000000) {
+                                dividendMinorUnits = dividendMinorUnits?.times(10)
+                                dividendValue = dividendValue?.times(10)
+                            }
+                            while (priceMinorUnits != 1000000) {
+                                priceMinorUnits= priceMinorUnits?.times(10)
+                                priceValue = priceValue?.times(10)
+                            }
+                        }
+
+            return ((dividendValue!!.toDouble() / priceValue!!.toDouble()) * 100).roundTo(2)
         }
+    }
+
 
     private fun calculateDividendIncome(
         dividendInfo: DividendInfo,

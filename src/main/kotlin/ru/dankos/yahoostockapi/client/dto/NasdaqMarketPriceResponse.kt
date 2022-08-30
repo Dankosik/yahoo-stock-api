@@ -1,7 +1,7 @@
 package ru.dankos.yahoostockapi.client.dto
 
 class NasdaqMarketPriceResponse(
-    val data: Value
+    val data: Value?,
 )
 
 class Value(
