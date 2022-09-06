@@ -1,5 +1,7 @@
 package ru.dankos.yahoostockapi.controller.dto
 
+import java.io.Serializable
+
 class DividendInfoResponse(
     val exDate: String,
     val amount: MoneyValue,
@@ -8,4 +10,4 @@ class DividendInfoResponse(
     val paymentDate: String,
     val prettyDividendIncome: String,
     val dividendIncome: Double? = null,
-)
+): Serializable

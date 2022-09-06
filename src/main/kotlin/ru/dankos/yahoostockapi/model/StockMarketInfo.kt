@@ -1,6 +1,7 @@
 package ru.dankos.yahoostockapi.model
 
 import ru.dankos.yahoostockapi.controller.dto.MoneyValue
+import java.io.Serializable
 
 class StockMarketInfo(
     val ticker: String? = null,
@@ -22,4 +23,4 @@ class StockMarketInfo(
     val prettyMarketCup: String? = null,
     val marketVolume: MoneyValue,
     val prettyMarketVolume: String? = null,
-)
+): Serializable

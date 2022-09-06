@@ -50,9 +50,9 @@ class StockAnalysisService(
 
     suspend fun getStockHistoricalDividendsByTicker(ticker: String): List<DividendInfoResponse> = coroutineScope {
         try {
-            val stockDividendInfoByTicker = async { cacheableStockService.getStockDividendInfoByTicker(ticker) }
+            val stockDividendInfoByTicker = cacheableStockService.getStockDividendInfoByTicker(ticker)
 
-            stockDividendInfoByTicker.await()
+            stockDividendInfoByTicker
                 .filter {
                     it.exDate?.isBefore(LocalDate.now()) ?: false && it.exDate?.isAfter(LocalDate.of(1990,1,1)
                     ) ?: false
@@ -145,7 +145,6 @@ class StockAnalysisService(
         dividendInfo: DividendInfo,
         historyPrice: HistoryPrice
     ): Double? {
-
         var dividendValue = dividendInfo.amount.value
         var priceValue = historyPrice.value.value
         if (dividendValue == null) {

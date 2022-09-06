@@ -1,6 +1,7 @@
 package ru.dankos.yahoostockapi.model
 
 import ru.dankos.yahoostockapi.controller.dto.MoneyValue
+import java.io.Serializable
 import java.time.LocalDate
 
 class DividendInfo(
@@ -8,4 +9,4 @@ class DividendInfo(
     val amount: MoneyValue,
     val recordDate: LocalDate?,
     val paymentDate: LocalDate?,
-)
+) : Serializable
