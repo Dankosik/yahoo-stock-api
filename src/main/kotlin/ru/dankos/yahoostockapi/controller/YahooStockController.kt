@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import ru.dankos.yahoostockapi.client.dto.NasdaqMarketPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.AllTickersResponse
+import ru.dankos.yahoostockapi.controller.dto.DividendInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.StockBaseInfoResponse
 import ru.dankos.yahoostockapi.controller.dto.StockPriceResponse
 import ru.dankos.yahoostockapi.controller.dto.TickersListRequest
@@ -37,6 +39,26 @@ class YahooStockController(
     @GetMapping("/{ticker}/baseInfo")
     suspend fun getStockBaseInfoResponseByTicker(@PathVariable ticker: String): StockBaseInfoResponse =
         yahooMarketDataInfoService.getStockBaseInfoResponseByTicker(ticker)
+
+    @GetMapping("/{ticker}/historyDividend")
+    suspend fun getHistoricalDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
+        stockAnalysisService.getStockHistoricalDividendsByTicker(ticker)
+
+    @GetMapping("/{ticker}/historyPrice")
+    suspend fun getHistoricalPriceResponseByTicker(@PathVariable ticker: String): NasdaqMarketPriceResponse =
+        stockAnalysisService.getHistoricalPrice(ticker)
+
+    @GetMapping("/historyDividend")
+    suspend fun getHistoricalDividendInfoResponseByTickers(@Valid @RequestBody request: TickersListRequest): List<List<DividendInfoResponse>> =
+        stockAnalysisService.getStockHistoricalDividendsByTickers(request)
+
+    @GetMapping("/{ticker}/futureDividend")
+    suspend fun getFutureDividendInfoResponseByTicker(@PathVariable ticker: String): List<DividendInfoResponse> =
+        stockAnalysisService.getStockFutureDividendsByTicker(ticker)
+
+    @GetMapping("/futureDiv")
+    suspend fun getFutureDividendInfoResponseByTickers(@Valid @RequestBody request: TickersListRequest): List<List<DividendInfoResponse>> =
+        stockAnalysisService.getStockFutureDividendsByTickers(request)
 
     @GetMapping("/marketInfo")
     suspend fun getStocksMarketInfosByTickers(@Valid @RequestBody request: TickersListRequest): List<StockMarketInfo> =

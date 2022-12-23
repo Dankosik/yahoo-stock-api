@@ -4,12 +4,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import reactivefeign.spring.config.EnableReactiveFeignClients
-import ru.dankos.yahoostockapi.config.CaffeineProperties
+import ru.dankos.yahoostockapi.config.CacheProperties
 
 @SpringBootApplication
 @EnableReactiveFeignClients
 @EnableConfigurationProperties(
-    CaffeineProperties::class
+    CacheProperties::class
 )
 class YahooStockApiApplication
 

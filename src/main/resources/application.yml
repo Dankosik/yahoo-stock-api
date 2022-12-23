@@ -5,6 +5,11 @@ spring:
     base-path: /yahoo-stock-api
   codec:
     max-in-memory-size: 10MB
+  cache:
+    type: redis
+  redis:
+    port: 6379
+    host: localhost
 management:
   endpoints:
     web:
@@ -13,16 +18,22 @@ management:
 caching:
   cacheNames:
     marketData:
-      timeout: 5 # in seconds
+      ttl: 5 # in seconds
     baseInfo:
-      timeout: 86400 # 1 day
+      ttl: 86400 # 1 day
     tickers:
-      timeout: 86400 # 1 day
+      ttl: 86400 # 1 day
     returnCapital:
-      timeout: 86400 # 1 day
+      ttl: 86400 # 1 day
+    dividends:
+      ttl: 86400 # 1 day
+    historyDividends:
+      ttl: 86400 # 1 day
 logging:
   level:
     reactivefeign.client.log: DEBUG
 feign-services:
   yahoo-endpoint: "https://query1.finance.yahoo.com/v10/finance/quoteSummary"
-  stock-analysis-endpoint: "https://api.stockanalysis.com"
+  nasdaq-endpoint: "https://api.nasdaq.com/api/quote"
+  stock-analysis-api-endpoint: "https://api.stockanalysis.com"
+  stock-analysis-endpoint: "https://stockanalysis.com"

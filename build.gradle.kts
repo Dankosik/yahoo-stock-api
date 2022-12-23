@@ -24,9 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
-    //cache
-    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     //reactive
     implementation("com.playtika.reactivefeign:feign-reactor-spring-cloud-starter:3.2.5")
@@ -53,8 +51,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
-
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 dependencyManagement {

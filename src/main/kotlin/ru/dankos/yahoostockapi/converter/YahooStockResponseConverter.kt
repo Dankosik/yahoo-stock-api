@@ -1,9 +1,9 @@
 package ru.dankos.yahoostockapi.converter
 
 import ru.dankos.yahoostockapi.client.dto.YahooStockResponse
-import ru.dankos.yahoostockapi.controller.dto.MoneyValue
 import ru.dankos.yahoostockapi.model.Exchanges
 import ru.dankos.yahoostockapi.model.StockMarketInfo
+import ru.dankos.yahoostockapi.utils.toPrettyString
 
 fun YahooStockResponse.toStockMarketInfo(): StockMarketInfo {
     val yahooResponse = quoteSummary.result[0].price
@@ -28,27 +28,12 @@ fun YahooStockResponse.toStockMarketInfo(): StockMarketInfo {
         marketCup = marketCup,
         marketVolume = marketVolume,
         exchange = if (yahooResponse.exchangeName == "NasdaqGS") Exchanges.NASDAQ else Exchanges.NYSE,
-        prettyPostMarketPrice = postMarketPrice.toPrettyDouble(),
-        prettyPreMarketPrice = preMarketPrice.toPrettyDouble(),
-        prettyMarketPrice = marketPrice.toPrettyDouble(),
-        prettyMarketDayHighPrice = marketDayHighPrice.toPrettyDouble(),
-        prettyMarketDayLowPrice = marketDayLowPrice.toPrettyDouble(),
-        prettyMarketCup = marketCup.toPrettyDouble(true),
-        prettyMarketVolume = marketVolume.toPrettyDouble(true),
+        prettyPostMarketPrice = postMarketPrice.toPrettyString(),
+        prettyPreMarketPrice = preMarketPrice.toPrettyString(),
+        prettyMarketPrice = marketPrice.toPrettyString(),
+        prettyMarketDayHighPrice = marketDayHighPrice.toPrettyString(),
+        prettyMarketDayLowPrice = marketDayLowPrice.toPrettyString(),
+        prettyMarketCup = marketCup.toPrettyString(true),
+        prettyMarketVolume = marketVolume.toPrettyString(true),
     )
 }
-
-fun MoneyValue.toPrettyDouble(roundAfterDot: Boolean = false) = if (value == null || minorUnits == null) {
-    null
-} else {
-    val result = (value.toDouble() / minorUnits).toBigDecimal().toPlainString()
-    if (roundAfterDot) {
-        roundAfterDot(result)
-    } else {
-        result
-    }
-}
-
-private fun roundAfterDot(string: String) = string.asSequence()
-    .takeWhile { it != '.' }
-    .joinToString(separator = "")
